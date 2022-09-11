@@ -9,7 +9,5 @@ namespace Fc.Kata.Checkout.Interfaces
 
 
         void Scan(Item item);
-
-        List<Item> GetAllItemInBasket();
     }
 }

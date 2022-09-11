@@ -9,12 +9,13 @@ namespace Fc.Kata.Checkout
     public class CheckoutService : ICheckoutService
     {
 
-        private readonly List<Item> TotalItemsInShop;
+        private Dictionary<string, decimal> itemPrices;
 
-        private List<Item> TotalItemsInBasket = new List<Item>();
-        public CheckoutService(List<Item> TotalItemsInShop)
+        private Dictionary<string, int> itemQuantities = new Dictionary<string, int>();
+
+        public CheckoutService(Dictionary<string, decimal> itemPrices)
         {
-            this.TotalItemsInShop = TotalItemsInShop;
+            this.itemPrices = itemPrices;
         }
 
         public void Scan(Item item)
@@ -22,44 +23,30 @@ namespace Fc.Kata.Checkout
             if (item == null)
                 throw new Exception("Item can't be null");
 
-           
-            if(this.TotalItemsInShop.Any())
+            int quantity;
+
+            if(itemPrices.ContainsKey(item.Sku))
             {
-                Item selectedItem = this.TotalItemsInShop.FirstOrDefault(x => x.Sku.Equals(item.Sku));
-
-                if (selectedItem == null)
-                    throw new Exception("Item Not Found in the shop");
-
-                if (!string.IsNullOrEmpty(selectedItem.Sku) && selectedItem.UnitPrice <= 0)
-                    throw new ArgumentOutOfRangeException("Item Price can't be zero or negative");
-
-
-                if (this.TotalItemsInBasket.Contains(selectedItem))
+                if (itemQuantities.TryGetValue(item.Sku, out quantity))
                 {
-                    this.TotalItemsInBasket.Find(x => x.Sku.Equals(selectedItem.Sku)).UnitPrice += selectedItem.UnitPrice;
+                    itemQuantities[item.Sku] = ++quantity;
                 }
                 else
                 {
-                    this.TotalItemsInBasket.Add(selectedItem);
+                    itemQuantities.Add(item.Sku, quantity = 1);
                 }
             }
-        }
-
-        public List<Item> GetAllItemInBasket()
-        {
-            return this.TotalItemsInBasket;
+            else
+            {
+                throw new Exception("Item Not Found in the shop");
+            }
         }
 
         public decimal Total()
         {
-            decimal totalOfBasket = 0m;
-
-            foreach(var itemInBasket in this.TotalItemsInBasket)
-            {
-                totalOfBasket += itemInBasket.UnitPrice;
-            }
-
-            return totalOfBasket;
+              return itemQuantities.Sum(item => item.Value * itemPrices[item.Key]);
         }
+
+
     }
 }

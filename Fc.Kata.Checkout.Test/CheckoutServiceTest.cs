@@ -11,29 +11,11 @@ namespace Fc.Kata.Checkout.Test
 
         private ICheckoutService checkoutService;
 
-        private List<Item> listOfItemsInShop = new List<Item>
+        private Dictionary<string, decimal> listOfItemsInShop = new Dictionary<string, decimal>
         {
-             new Item
-           {
-               Sku = "A12",
-               UnitPrice = 0m
-           },
-           new Item
-           {
-               Sku = "A99",
-               UnitPrice = 0.50m
-           },
-           new Item
-           {
-               Sku = "B15",
-               UnitPrice = 0.30m
-           },
-             new Item
-           {
-               Sku = "C40",
-               UnitPrice = 0.60m
-           },
-
+            { "A99", 0.50m},
+            { "B15", 0.30m},
+            { "C40", 0.60m}
         };
 
         [Fact]
@@ -43,19 +25,7 @@ namespace Fc.Kata.Checkout.Test
             Assert.Throws<Exception>(() => checkoutService.Scan(null));
         }
 
-        [Fact]
-        public void Scan_ArgumentOutOfRangeTest()
-        {
-            this.checkoutService = new CheckoutService(listOfItemsInShop);
-
-            var item = new Item
-            {
-                Sku = "A12",
-            };
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => checkoutService.Scan(item));
-        }
-
+       
         [Fact]
         public void Scan_ItemNotInShopTest()
         {
@@ -82,9 +52,11 @@ namespace Fc.Kata.Checkout.Test
 
             this.checkoutService.Scan(item);
 
-            List<Item> listOfItemsInBasket = this.checkoutService.GetAllItemInBasket();
 
-            Assert.Single(listOfItemsInBasket);
+
+            var sum = this.checkoutService.Total();
+
+            Assert.Equal(0.5m, sum);
         }
 
         [Fact]
@@ -106,14 +78,8 @@ namespace Fc.Kata.Checkout.Test
             this.checkoutService.Scan(item);
 
             this.checkoutService.Scan(item1);
-            List<Item> listOfItemsInBasket = this.checkoutService.GetAllItemInBasket();
 
-            decimal sum = 0m;
-            foreach(var itemInBasket in listOfItemsInBasket)
-            {
-                sum += itemInBasket.UnitPrice;
-            }
-
+            var sum = this.checkoutService.Total();
 
             Assert.Equal(1, sum);
         }
@@ -136,6 +102,7 @@ namespace Fc.Kata.Checkout.Test
              Assert.Equal(0.5m, total);
            
         }
+
 
 
         [Fact]
@@ -189,6 +156,36 @@ namespace Fc.Kata.Checkout.Test
             var total = this.checkoutService.Total();
 
             Assert.Equal(1.4m, total);
+
+        }
+
+        [Fact]
+        public void Total_Item1And2And3SAmeInShopAndAddedToBasketTest()
+        {
+            this.checkoutService = new CheckoutService(listOfItemsInShop);
+
+            var item1 = new Item
+            {
+                Sku = "A99",
+            };
+
+            var item2 = new Item
+            {
+                Sku = "A99",
+            };
+
+            var item3 = new Item
+            {
+                Sku = "A99",
+            };
+
+            this.checkoutService.Scan(item1);
+            this.checkoutService.Scan(item2);
+            this.checkoutService.Scan(item3);
+
+            var total = this.checkoutService.Total();
+
+            Assert.Equal(1.5m, total);
 
         }
     }
