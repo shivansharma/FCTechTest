@@ -35,16 +35,20 @@ namespace Fc.Kata.Checkout.Test
         };
 
         [Fact]
-        public void Scan_ItemNullTest()
+        public void Test_Scan_ItemNullTest()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
+
+            // Act & Assert
             Assert.Throws<Exception>(() => checkoutService.Scan(null));
         }
 
        
         [Fact]
-        public void Scan_ItemNotInShopTest()
+        public void Test_Scan_ItemNotInShopTest()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
 
             var item = new Item
@@ -52,13 +56,17 @@ namespace Fc.Kata.Checkout.Test
                 Sku = "A43",
             };
 
+            // Act
             var exception = Assert.Throws<Exception>(() => checkoutService.Scan(item));
+
+            // Assert
             Assert.Equal("Item Not Found in the shop", exception.Message);
         }
 
         [Fact]
-        public void Scan_ItemInShopAndAddedToBasketTest()
+        public void Test_Scan_ItemInShopAndAddedToBasketTest()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
 
             var item = new Item
@@ -66,18 +74,18 @@ namespace Fc.Kata.Checkout.Test
                 Sku = "A99",
             };
 
+            // Act
             this.checkoutService.Scan(item);
-
-
-
             var sum = this.checkoutService.Total();
 
+            // Assert
             Assert.Equal(0.5m, sum);
         }
 
         [Fact]
-        public void Scan_Same_ItemInShopAndAddedToBasketTest()
+        public void Test_Scan_Same_ItemInShopAndAddedToBasketTest()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
 
             var item = new Item
@@ -90,20 +98,19 @@ namespace Fc.Kata.Checkout.Test
                 Sku = "A99",
             };
 
-
+            // Act
             this.checkoutService.Scan(item);
-
             this.checkoutService.Scan(item1);
-
             var sum = this.checkoutService.Total();
 
+            // ASsert
             Assert.Equal(1, sum);
         }
 
-
         [Fact]
-        public void Total_ItemInShopAndAddedToBasketTest()
+        public void Test_Total_ItemInShopAndAddedToBasketTest()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
 
             var item = new Item
@@ -111,19 +118,18 @@ namespace Fc.Kata.Checkout.Test
                 Sku = "A99",
             };
 
+            // Act
             this.checkoutService.Scan(item);
-
             var total = this.checkoutService.Total();
 
-             Assert.Equal(0.5m, total);
-           
+            // Assert
+            Assert.Equal(0.5m, total);
         }
 
-
-
         [Fact]
-        public void Total_Item1And2InShopAndAddedToBasketTest()
+        public void Test_Total_AddTwoDifferentItemInBasketTest()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
 
             var item = new Item
@@ -136,18 +142,19 @@ namespace Fc.Kata.Checkout.Test
                 Sku = "C40",
             };
 
+            // Act
             this.checkoutService.Scan(item);
             this.checkoutService.Scan(item1);
-
             var total = this.checkoutService.Total();
 
+            // Assert
             Assert.Equal(1.1m, total);
-
         }
 
         [Fact]
-        public void Total_Item1And2And3InShopAndAddedToBasketTest()
+        public void Test_Total_AddAllDifferentItemInBasketTest()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
 
             var item1 = new Item
@@ -165,19 +172,22 @@ namespace Fc.Kata.Checkout.Test
                 Sku = "B15",
             };
 
+            // Act
             this.checkoutService.Scan(item1);
             this.checkoutService.Scan(item2);
             this.checkoutService.Scan(item3);
 
             var total = this.checkoutService.Total();
 
+            // Assert
             Assert.Equal(1.4m, total);
 
         }
 
         [Fact]
-        public void Total_Item1And2And3SAmeInShopAndAddedToBasketTest()
+        public void Test_Total_SameITem_WithOfferInBasketTest()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
 
             var item1 = new Item
@@ -195,19 +205,22 @@ namespace Fc.Kata.Checkout.Test
                 Sku = "A99",
             };
 
+            // Act
             this.checkoutService.Scan(item1);
             this.checkoutService.Scan(item2);
             this.checkoutService.Scan(item3);
 
             var total = this.checkoutService.Total();
 
+            // Assert
             Assert.Equal(1.3m, total);
 
         }
 
         [Fact]
-        public void Total_Item1And2And3SAmeInShopAndAddedToBasketTest_1()
+        public void Test_DifferentItemWithoutDiscountBasketTest()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
 
             var item1 = new Item
@@ -225,19 +238,20 @@ namespace Fc.Kata.Checkout.Test
                 Sku = "B15",
             };
 
+            // Act
             this.checkoutService.Scan(item1);
             this.checkoutService.Scan(item2);
             this.checkoutService.Scan(item3);
-
             var total = this.checkoutService.Total();
 
+            // Assert
             Assert.Equal(1.3m, total);
-
         }
 
         [Fact]
-        public void Total_Item1And2And3SAmeInShopAndAddedToBasketTest_2()
+        public void Test_Total_SecondItemWithOFferAddedInBasket()
         {
+            // Arrange
             this.checkoutService = new CheckoutService(listOfItemsInShop, listOfOffer);
 
             var item1 = new Item
@@ -260,6 +274,7 @@ namespace Fc.Kata.Checkout.Test
                 Sku = "B15",
             };
 
+            // Act
             this.checkoutService.Scan(item1);
             this.checkoutService.Scan(item2);
             this.checkoutService.Scan(item3);
@@ -267,7 +282,47 @@ namespace Fc.Kata.Checkout.Test
 
             var total = this.checkoutService.Total();
 
+            // ASsert
             Assert.Equal(1.45m, total);
+
+        }
+
+        [Fact]
+        public void Test_Total_ItemWithNullOFferAddedInBasket()
+        {
+            // Arrange
+            this.checkoutService = new CheckoutService(listOfItemsInShop, null);
+
+            var item1 = new Item
+            {
+                Sku = "A99",
+            };
+
+            var item2 = new Item
+            {
+                Sku = "A99",
+            };
+
+            var item3 = new Item
+            {
+                Sku = "B15",
+            };
+
+            var item4 = new Item
+            {
+                Sku = "B15",
+            };
+
+            // Act
+            this.checkoutService.Scan(item1);
+            this.checkoutService.Scan(item2);
+            this.checkoutService.Scan(item3);
+            this.checkoutService.Scan(item4);
+
+            var total = this.checkoutService.Total();
+
+            // ASsert
+            Assert.Equal(1.60m, total);
 
         }
     }

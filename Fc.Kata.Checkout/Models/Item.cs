@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Fc.Kata.Checkout.Models
+﻿namespace Fc.Kata.Checkout.Models
 {
     public class Item
     {

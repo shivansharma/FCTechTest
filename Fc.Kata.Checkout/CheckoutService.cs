@@ -11,14 +11,14 @@ namespace Fc.Kata.Checkout
 
         private Dictionary<string, decimal> itemPrices;
 
-        private Dictionary<string, int> itemQuantities = new Dictionary<string, int>();
+        private List<ItemOffer> itemOffers;
 
-        private List<ItemOffer> ItemOffers;
+        private Dictionary<string, int> itemQuantities = new Dictionary<string, int>();
 
         public CheckoutService(Dictionary<string, decimal> itemPrices, List<ItemOffer> itemOffers)
         {
             this.itemPrices = itemPrices;
-            this.ItemOffers = itemOffers;
+            this.itemOffers = itemOffers;
         }
 
         public void Scan(Item item)
@@ -28,7 +28,7 @@ namespace Fc.Kata.Checkout
 
             int quantity;
 
-            if(itemPrices.ContainsKey(item.Sku))
+            if(itemPrices != null && itemPrices.ContainsKey(item.Sku))
             {
                 if (itemQuantities.TryGetValue(item.Sku, out quantity))
                 {
@@ -36,7 +36,7 @@ namespace Fc.Kata.Checkout
                 }
                 else
                 {
-                    itemQuantities.Add(item.Sku, quantity = 1);
+                    itemQuantities.Add(item.Sku, 1);
                 }
             }
             else
@@ -50,20 +50,26 @@ namespace Fc.Kata.Checkout
             decimal sum = 0;
             foreach(var item in itemQuantities)
             {
-                ItemOffer offerOnItem = this.ItemOffers.FirstOrDefault(x => x.Sku.Equals(item.Key));
-                if(offerOnItem != null && offerOnItem.Quantity.Equals(item.Value))
-                {
-                    sum += offerOnItem.OfferPrice;
-                }
-                else
-                {
-                    sum += item.Value * itemPrices[item.Key];
-                }
+                sum += CalculateTotalWithOffer(item.Key, item.Value, sum);
             }
 
             return sum;
         }
 
+        private decimal CalculateTotalWithOffer(string sku, int price, decimal sum)
+        {
+            if (this.itemOffers != null)
+            {
+                ItemOffer offerOnItem = this.itemOffers.FirstOrDefault(x => x.Sku.Equals(sku));
+                if (offerOnItem != null && offerOnItem.Quantity.Equals(price))
+                {
+                    sum = offerOnItem.OfferPrice;
+                    return sum;
+                }
+            }
 
+            sum = price * itemPrices[sku];
+            return sum;
+        }
     }
 }
