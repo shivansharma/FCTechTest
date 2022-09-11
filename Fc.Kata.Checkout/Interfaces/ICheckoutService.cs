@@ -1,4 +1,5 @@
 ﻿using Fc.Kata.Checkout.Models;
+using System.Collections.Generic;
 
 namespace Fc.Kata.Checkout.Interfaces
 {
@@ -6,6 +7,9 @@ namespace Fc.Kata.Checkout.Interfaces
     {
         decimal Total();
 
+
         void Scan(Item item);
+
+        List<Item> GetAllItemInBasket();
     }
 }
