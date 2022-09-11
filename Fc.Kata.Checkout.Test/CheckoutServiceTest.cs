@@ -117,5 +117,79 @@ namespace Fc.Kata.Checkout.Test
 
             Assert.Equal(1, sum);
         }
+
+
+        [Fact]
+        public void Total_ItemInShopAndAddedToBasketTest()
+        {
+            this.checkoutService = new CheckoutService(listOfItemsInShop);
+
+            var item = new Item
+            {
+                Sku = "A99",
+            };
+
+            this.checkoutService.Scan(item);
+
+            var total = this.checkoutService.Total();
+
+             Assert.Equal(0.5m, total);
+           
+        }
+
+
+        [Fact]
+        public void Total_Item1And2InShopAndAddedToBasketTest()
+        {
+            this.checkoutService = new CheckoutService(listOfItemsInShop);
+
+            var item = new Item
+            {
+                Sku = "A99",
+            };
+
+            var item1 = new Item
+            {
+                Sku = "C40",
+            };
+
+            this.checkoutService.Scan(item);
+            this.checkoutService.Scan(item1);
+
+            var total = this.checkoutService.Total();
+
+            Assert.Equal(1.1m, total);
+
+        }
+
+        [Fact]
+        public void Total_Item1And2And3InShopAndAddedToBasketTest()
+        {
+            this.checkoutService = new CheckoutService(listOfItemsInShop);
+
+            var item1 = new Item
+            {
+                Sku = "A99",
+            };
+
+            var item2 = new Item
+            {
+                Sku = "C40",
+            };
+
+            var item3 = new Item
+            {
+                Sku = "B15",
+            };
+
+            this.checkoutService.Scan(item1);
+            this.checkoutService.Scan(item2);
+            this.checkoutService.Scan(item3);
+
+            var total = this.checkoutService.Total();
+
+            Assert.Equal(1.4m, total);
+
+        }
     }
 }

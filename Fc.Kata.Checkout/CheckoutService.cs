@@ -52,7 +52,14 @@ namespace Fc.Kata.Checkout
 
         public decimal Total()
         {
-            throw new NotImplementedException();
+            decimal totalOfBasket = 0m;
+
+            foreach(var itemInBasket in this.TotalItemsInBasket)
+            {
+                totalOfBasket += itemInBasket.UnitPrice;
+            }
+
+            return totalOfBasket;
         }
     }
 }

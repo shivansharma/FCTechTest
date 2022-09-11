@@ -1,9 +1,0 @@
-C:\Users\shivani.sharma.DFH.000\source\repos\Fc.Kata.Checkout\Fc.Kata.Checkout\bin\Debug\netcoreapp3.1\Fc.Kata.Checkout.deps.json
-C:\Users\shivani.sharma.DFH.000\source\repos\Fc.Kata.Checkout\Fc.Kata.Checkout\bin\Debug\netcoreapp3.1\Fc.Kata.Checkout.dll
-C:\Users\shivani.sharma.DFH.000\source\repos\Fc.Kata.Checkout\Fc.Kata.Checkout\bin\Debug\netcoreapp3.1\Fc.Kata.Checkout.pdb
-C:\Users\shivani.sharma.DFH.000\source\repos\Fc.Kata.Checkout\Fc.Kata.Checkout\obj\Debug\netcoreapp3.1\Fc.Kata.Checkout.csproj.AssemblyReference.cache
-C:\Users\shivani.sharma.DFH.000\source\repos\Fc.Kata.Checkout\Fc.Kata.Checkout\obj\Debug\netcoreapp3.1\Fc.Kata.Checkout.AssemblyInfoInputs.cache
-C:\Users\shivani.sharma.DFH.000\source\repos\Fc.Kata.Checkout\Fc.Kata.Checkout\obj\Debug\netcoreapp3.1\Fc.Kata.Checkout.AssemblyInfo.cs
-C:\Users\shivani.sharma.DFH.000\source\repos\Fc.Kata.Checkout\Fc.Kata.Checkout\obj\Debug\netcoreapp3.1\Fc.Kata.Checkout.csproj.CoreCompileInputs.cache
-C:\Users\shivani.sharma.DFH.000\source\repos\Fc.Kata.Checkout\Fc.Kata.Checkout\obj\Debug\netcoreapp3.1\Fc.Kata.Checkout.dll
-C:\Users\shivani.sharma.DFH.000\source\repos\Fc.Kata.Checkout\Fc.Kata.Checkout\obj\Debug\netcoreapp3.1\Fc.Kata.Checkout.pdb
