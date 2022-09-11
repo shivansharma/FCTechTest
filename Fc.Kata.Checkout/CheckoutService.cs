@@ -13,9 +13,12 @@ namespace Fc.Kata.Checkout
 
         private Dictionary<string, int> itemQuantities = new Dictionary<string, int>();
 
-        public CheckoutService(Dictionary<string, decimal> itemPrices)
+        private List<ItemOffer> ItemOffers;
+
+        public CheckoutService(Dictionary<string, decimal> itemPrices, List<ItemOffer> itemOffers)
         {
             this.itemPrices = itemPrices;
+            this.ItemOffers = itemOffers;
         }
 
         public void Scan(Item item)
@@ -44,7 +47,21 @@ namespace Fc.Kata.Checkout
 
         public decimal Total()
         {
-              return itemQuantities.Sum(item => item.Value * itemPrices[item.Key]);
+            decimal sum = 0;
+            foreach(var item in itemQuantities)
+            {
+                ItemOffer offerOnItem = this.ItemOffers.FirstOrDefault(x => x.Sku.Equals(item.Key));
+                if(offerOnItem != null && offerOnItem.Quantity.Equals(item.Value))
+                {
+                    sum += offerOnItem.OfferPrice;
+                }
+                else
+                {
+                    sum += item.Value * itemPrices[item.Key];
+                }
+            }
+
+            return sum;
         }
 
 
